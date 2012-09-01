@@ -1,0 +1,110 @@
+<div id='info'>
+<?php
+    echo strftime("%e de %B del %Y")."<br />";
+
+    /**
+     * Verificando permisos del dir temp/
+     */
+    if(!is_writable(APP_PATH.'temp')){
+        $tmp = "Debes darle permiso a: '".basename(APP_PATH)."/temp/'";
+    } else {
+        $tmp = 'Directorio temp... ok';
+    }
+
+    /**
+     * Configuracion del config.ini
+     */
+    $config = Config::read('config');
+
+    $databases = ($config['application']['database']) ? 'On' : 'Off';
+    $status = ($config['application']['production']) ? 'Production' : 'Development';
+
+    if(isset($config['application']['locale'])){
+        $locale = $config['application']['locale'];
+    } else {
+        $locale = 'No se ha especificado un locale';
+    }
+    if(isset($config['application']['timezone'])){
+        $timezone = $config['application']['timezone'];
+    } else {
+        $timezone = 'No se ha especificado un Timezone en el config.ini. Pero el servidor tiene <strong>'.date_default_timezone_get().'</strong>';
+    }
+    if(isset($config['application']['cache_driver'])){
+        $cahe_driver = $config['application']['cache_driver'];
+    } else {
+        $cache_driver = 'No ha seleccionado un driver para la cache';
+    }
+
+?>
+        <h2>config.ini <span class='app'> de <?php echo basename(dirname(APP_PATH)) ?></span></h2>
+
+		<table class="table table-bordered table-striped">
+            <colgroup>
+              <col class="span4">
+              <col class="span6">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Configuraci&oacute;n</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Directorio temp/:
+                </td>
+                <td><?php echo $tmp ?>
+				</td>
+              </tr>
+			  <tr>
+                <td>Estado Actual del Framework: <span><?php echo $status ?></span>
+                </td>
+                <td>Ver <a href='http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Modos_de_una_Aplicaci.C3.B3n'>Modos de ejecución</a>
+				</td>
+              </tr>
+			  <tr>
+                <td>Carga Automática de Modelos: <span><?php echo $databases?></span>
+                </td>
+                <td>Habilita la carga de modelos automática.
+				</td>
+              </tr>
+			  <tr>
+                <td>Base de Datos: <span><?php echo $config['application']['database'] ?></span>
+                </td>
+                <td>Datos de la conexión a la BD que será utilizada, ver configuración <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#databases.ini">databases.ini</a>.
+				</td>
+              </tr>
+			  <tr>
+                <td>Carga de Modelos:
+                </td>
+                <td>Ver <a href="http://wiki.kumbiaphp.com/KumbiaPHP_Framework_Versi%C3%B3n_1.0_Spirit#Carga_selectiva_de_modelos">Carga Selectiva de Modelos</a>.
+				</td>
+              </tr>
+			  <tr>
+                <td>Charset: <span><?php echo $config['application']['charset'] ?></span>
+                </td>
+                <td>Codificación de caracteres. Recomendado UTF-8
+				</td>
+              </tr>
+			  <tr>
+                <td>TimeZone: <span><?php echo $timezone ?></span>
+                </td>
+                <td>Zona horaria que usará el Framework.
+				</td>
+              </tr>
+			  <tr>
+                <td>Cache Driver: <span><?php echo $cahe_driver ?></span>
+                </td>
+                <td>Driver que se utilizara para realizar las operaciones de cache.
+				</td>
+              </tr>
+			  <tr>
+                <td>Locale: <span><?php echo $locale ?></span>
+                </td>
+                <td>Localización. Característica que depende de los locale instalado en el servidor.
+				</td>
+              </tr>
+
+            </tbody>
+          </table>
+</div>
