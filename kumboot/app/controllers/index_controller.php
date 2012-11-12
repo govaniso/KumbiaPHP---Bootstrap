@@ -7,6 +7,8 @@ class IndexController extends AppController
 {
 	public function index()
 	{
-		
+		Flash::success("success");
+		Flash::warning("success");
+		Flash::info("success");
 	}
 }
